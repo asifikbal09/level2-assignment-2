@@ -1,11 +1,23 @@
 import { TUser } from './user.interface';
 import { User } from './user.model';
 
-const createUserFromDB = async (userData: TUser) => {
+const createUserIntoDB = async (userData: TUser) => {
   const result = await User.create(userData);
   return result;
 };
 
+const getAllUserFromDB = async () => {
+  const result = await User.find().select({
+    username: 1,
+    fullName: 1,
+    age: 1,
+    email: 1,
+    address: 1,
+  });
+  return result;
+};
+
 export const UserService = {
-  createUserFromDB,
+  createUserIntoDB,
+  getAllUserFromDB,
 };

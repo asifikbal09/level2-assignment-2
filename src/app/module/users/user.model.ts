@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TAddress, TUser, TUserName } from './user.interface';
+import { TAddress, TOrder, TUser, TUserName } from './user.interface';
 
 const fullNameSchema = new Schema<TUserName>({
   firstName: { type: String, required: [true, 'First name is required.'] },
@@ -7,18 +7,33 @@ const fullNameSchema = new Schema<TUserName>({
 });
 
 const addressSchema = new Schema<TAddress>({
-    street:{
-        type:String,
-    },
-    city:{
-        type:String,
-        required:true
-    },
-    country:{
-        type:String,
-        required:true
-    }
-})
+  street: {
+    type: String,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+});
+
+const orderSchema = new Schema<TOrder>({
+  productName: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+});
 
 const userSchema = new Schema<TUser>({
   userId: {
@@ -30,7 +45,6 @@ const userSchema = new Schema<TUser>({
     type: String,
     required: [true, 'Username is required.'],
     unique: true,
-    maxlength: 20,
   },
   password: { type: String, required: [true, 'Password is required.'] },
   fullName: {
@@ -39,18 +53,22 @@ const userSchema = new Schema<TUser>({
   },
   age: { type: Number, required: [true, 'Age is required.'] },
   email: { type: String, required: true, unique: true },
-  isActive:{
-    type:Boolean,
-    default:true
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: true,
   },
-  hobbies:{
-    type:[String]
+  hobbies: {
+    type: [String],
   },
-  address:{
-    type:addressSchema,
-    required:true
-  }
+  address: {
+    type: addressSchema,
+    required: true,
+  },
+  orders: {
+    type: [orderSchema],
+    required: true,
+  },
 });
 
 export const User = model<TUser>('User', userSchema);
-
