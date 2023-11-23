@@ -84,9 +84,22 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+//delete user function
+const deleteUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const result = await UserService.deleteUserFromDB(parseFloat(userId));
+  res.status(200).json({
+    success: true,
+    message: 'User deleted successfully!',
+    data: null,
+  });
+};
+
 export const UserController = {
   createUser,
   getAllUser,
   getSingleUser,
   updateUser,
+  deleteUser,
 };

@@ -39,9 +39,15 @@ const updateUserInfoFromDB = async (userId: number, userUpdatedData: TUser) => {
   if (result.matchedCount) {
     const updatedData = await User.findOne({ userId });
     return updatedData;
-  }else{
-    throw Error("Something went wrong.")
+  } else {
+    throw Error('Something went wrong.');
   }
+};
+
+//delete user from database
+const deleteUserFromDB = async (userId: number) => {
+  const result = await User.deleteOne({ userId });
+  return result;
 };
 
 export const UserService = {
@@ -49,4 +55,5 @@ export const UserService = {
   getAllUserFromDB,
   getSingleUserFromDB,
   updateUserInfoFromDB,
+  deleteUserFromDB,
 };
