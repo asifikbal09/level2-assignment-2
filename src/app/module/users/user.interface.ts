@@ -10,13 +10,13 @@ export type TAddress = {
 };
 
 export type TUser = {
-  userID: number;
+  userId: number;
   username: string;
   password: string;
   fullName: TUserName;
   age: number;
   email: string;
-  isActive: 'active' | 'inactive';
+  isActive:boolean;
   hobbies: string[];
   address: TAddress;
 };
@@ -27,4 +27,4 @@ export type Order = {
   quantity: number;
 };
 
-export type TOrders = Array<Order>
+export type TOrders = Array<Order> 
