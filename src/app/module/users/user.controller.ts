@@ -45,7 +45,19 @@ const getAllUser = async (req: Request, res: Response) => {
   }
 };
 
+//get single user function
+const getSingleUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const result = await UserService.getSingleUserFromDB(parseFloat(userId));
+  res.status(200).json({
+    success: true,
+    message: 'User fetched successfully!',
+    data: result,
+  });
+};
+
 export const UserController = {
   createUser,
   getAllUser,
+  getSingleUser,
 };
