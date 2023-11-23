@@ -19,8 +19,9 @@ const getAllUserFromDB = async () => {
   return result;
 };
 
+//get a single user from database
 const getSingleUserFromDB = async (userId: number) => {
-  const result = await User.findOne({userId}).select({
+  const result = await User.findOne({ userId }).select({
     username: 1,
     fullName: 1,
     age: 1,
@@ -30,8 +31,22 @@ const getSingleUserFromDB = async (userId: number) => {
   return result;
 };
 
+//update user information and save into database
+const updateUserInfoFromDB = async (userId: number, userUpdatedData: TUser) => {
+  const result = await User.updateOne({ userId: userId }, userUpdatedData, {
+    new: true,
+  });
+  if (result.matchedCount) {
+    const updatedData = await User.findOne({ userId });
+    return updatedData;
+  }else{
+    throw Error("Something went wrong.")
+  }
+};
+
 export const UserService = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
+  updateUserInfoFromDB,
 };

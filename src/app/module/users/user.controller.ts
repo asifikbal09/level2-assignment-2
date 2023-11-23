@@ -56,8 +56,37 @@ const getSingleUser = async (req: Request, res: Response) => {
   });
 };
 
+//update user data
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const { user } = req.body;
+    const result = await UserService.updateUserInfoFromDB(
+      parseFloat(userId),
+      user,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(501).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 501,
+        description: err,
+      },
+    });
+  }
+};
+
 export const UserController = {
   createUser,
   getAllUser,
   getSingleUser,
+  updateUser,
 };
