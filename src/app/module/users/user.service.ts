@@ -1,4 +1,4 @@
-import { TUser } from './user.interface';
+import { TOrder, TUser } from './user.interface';
 import { User } from './user.model';
 
 //save a new user into database
@@ -52,10 +52,18 @@ const deleteUserFromDB = async (userId: number) => {
   return result;
 };
 
+const addOrderIntoDB=async (userId:number,order:TOrder)=>{
+  const user = await User.findOneAndUpdate({userId},{$push:{orders:order}},{new:true})
+  return user
+  
+ 
+} 
+
 export const UserService = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
   updateUserInfoFromDB,
   deleteUserFromDB,
+  addOrderIntoDB
 };

@@ -70,6 +70,7 @@ const userSchema = new Schema<TUser>({
   orders: {
     type: [orderSchema],
     required: true,
+    
   },
 });
 

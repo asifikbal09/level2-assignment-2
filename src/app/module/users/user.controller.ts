@@ -96,10 +96,23 @@ const deleteUser = async (req: Request, res: Response) => {
   });
 };
 
+//add order function
+const addOrder = async (req: Request, res: Response) => {
+  const { order } = req.body;
+  const { userId } = req.params;
+  const result = await UserService.addOrderIntoDB(parseFloat(userId), order);
+  res.status(200).json({
+    success: true,
+    message: 'Order added successfully.',
+    data: result,
+  });
+};
+
 export const UserController = {
   createUser,
   getAllUser,
   getSingleUser,
   updateUser,
   deleteUser,
+  addOrder,
 };
