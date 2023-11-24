@@ -3,7 +3,9 @@ import { User } from './user.model';
 
 //save a new user into database
 const createUserIntoDB = async (userData: TUser) => {
-  const result = await User.create(userData);
+  const user = await User.create(userData);
+  const userId = user.userId
+  const result = await User.findOne({userId}).select({password:0})
   return result;
 };
 
