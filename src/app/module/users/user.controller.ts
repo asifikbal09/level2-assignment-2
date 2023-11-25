@@ -12,11 +12,11 @@ const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(501).json({
+    res.status(404).json({
       success: false,
       message: 'User not created.',
       error: {
-        code: 501,
+        code: 404,
         description: err,
       },
     });
@@ -34,11 +34,11 @@ const getAllUser = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(501).json({
+    res.status(404).json({
       success: false,
       message: err.message,
       error: {
-        code: 501,
+        code: 404,
         description: err,
       },
     });
@@ -73,11 +73,11 @@ const updateUser = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(501).json({
+    res.status(404).json({
       success: false,
       message: err.message,
       error: {
-        code: 501,
+        code: 404,
         description: err,
       },
     });
@@ -97,11 +97,11 @@ const deleteUser = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(501).json({
+    res.status(404).json({
       success: false,
       message: err.message,
       error: {
-        code: 501,
+        code: 404,
         description: err,
       },
     });
@@ -121,17 +121,18 @@ const addOrder = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(501).json({
+    res.status(404).json({
       success: false,
       message: err.message,
       error: {
-        code: 501,
+        code: 404,
         description: err,
       },
     });
   }
 };
 
+//Get all order
 const getAllOrder = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -143,16 +144,39 @@ const getAllOrder = async (req: Request, res: Response) => {
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err:any) {
-    res.status(501).json({
+    res.status(404).json({
       success: false,
       message: err.message,
       error: {
-        code: 501,
+        code: 404,
         description: err,
       },
     });
   }
 };
+
+//calculate the total cost
+const calculateTotalCost=async(req:Request,res:Response)=>{
+try {
+  const {userId}=req.params
+  const result = await UserService.calculateTotalCostOfAnUser(parseFloat(userId))
+  res.status(200).json({
+    success: true,
+    message: 'Total price calculated successfully!',
+    data: result,
+  })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+} catch (err:any) {
+  res.status(404).json({
+    success: false,
+    message: err.message,
+    error: {
+      code: 404,
+      description: err,
+    },
+  });
+}
+}
 
 export const UserController = {
   createUser,
@@ -162,4 +186,5 @@ export const UserController = {
   deleteUser,
   addOrder,
   getAllOrder,
+  calculateTotalCost
 };

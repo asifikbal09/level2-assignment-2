@@ -22,6 +22,9 @@ router.delete('/:userId', UserController.deleteUser);
 router.put('/:userId/orders', UserController.addOrder);
 
 //get all order route
-router.get('/:userId/orders',UserController.getAllOrder)
+router.get('/:userId/orders', UserController.getAllOrder);
+
+//calculate total cost route
+router.get('/:userId/orders/total-price', UserController.calculateTotalCost);
 
 export const UserRouter = router;
