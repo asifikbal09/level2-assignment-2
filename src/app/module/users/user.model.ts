@@ -69,8 +69,8 @@ const userSchema = new Schema<TUser>({
   },
   orders: {
     type: [orderSchema],
-    required: true,
-    
+    required:false,
+    default:[]
   },
 });
 
@@ -86,7 +86,4 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
- 
 export const User = model<TUser>('User', userSchema);
-
-

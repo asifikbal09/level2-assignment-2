@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
+import userValidationSchema, { orderValidationSchema } from './user.validation';
 
 //create a user function
 const createUser = async (req: Request, res: Response) => {
   try {
     const { user: userData } = req.body;
-    const result = await UserService.createUserIntoDB(userData);
+    const validatedData = userValidationSchema.parse(userData)
+    const result = await UserService.createUserIntoDB(validatedData);
     res.status(200).json({
       success: true,
       message: 'User created successfully!',
@@ -61,9 +63,10 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
     const { user } = req.body;
+    const validatedData = userValidationSchema.parse(user)
     const result = await UserService.updateUserInfoFromDB(
       parseFloat(userId),
-      user,
+      validatedData,
     );
 
     res.status(200).json({
@@ -113,7 +116,8 @@ const addOrder = async (req: Request, res: Response) => {
   try {
     const { order } = req.body;
     const { userId } = req.params;
-    const result = await UserService.addOrderIntoDB(parseFloat(userId), order);
+    const validatedData = orderValidationSchema.parse(order)
+    const result = await UserService.addOrderIntoDB(parseFloat(userId), validatedData);
     res.status(200).json({
       success: true,
       message: 'Order added successfully.',

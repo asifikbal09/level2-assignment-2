@@ -5,7 +5,7 @@ import { User } from './user.model';
 const createUserIntoDB = async (userData: TUser) => {
   const user = await User.create(userData);
   const userId = user.userId;
-  const result = await User.findOne({ userId }).select({ password: 0 });
+  const result = await User.findOne({ userId }).select({ password: 0, _id: 0 });
   return result;
 };
 
@@ -17,6 +17,7 @@ const getAllUserFromDB = async () => {
     age: 1,
     email: 1,
     address: 1,
+    _id: 0,
   });
   return result;
 };
@@ -65,7 +66,7 @@ const addOrderIntoDB = async (userId: number, order: TOrder) => {
 //Show all order from an user
 const getAllOderFromUser = async (userId: number) => {
   const orders = await User.findOne({ userId }).select({ orders: 1 });
-  if (orders?.orders.length) {
+  if (orders?.orders?.length) {
     return orders;
   } else {
     throw Error("User don't have any order.");
@@ -75,7 +76,7 @@ const getAllOderFromUser = async (userId: number) => {
 //calculate the total cost of a user
 const calculateTotalCostOfAnUser = async (userId: number) => {
   const user = await User.findOne({ userId });
-  if (user?.orders.length) {
+  if (user?.orders?.length) {
     const result = await User.aggregate([
       //stage 1 : matching the userId
       { $match: { userId } },
