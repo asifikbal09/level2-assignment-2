@@ -24,6 +24,9 @@ const getAllUserFromDB = async () => {
 
 //get a single user from database
 const getSingleUserFromDB = async (userId: number) => {
+  if ((await User.isUserExists(userId)) === null) {
+    throw Error('User not found.');
+  }
   const result = await User.findOne({ userId }).select({
     username: 1,
     fullName: 1,
@@ -36,6 +39,9 @@ const getSingleUserFromDB = async (userId: number) => {
 
 //update user information and save into database
 const updateUserInfoFromDB = async (userId: number, userUpdatedData: TUser) => {
+  if ((await User.isUserExists(userId)) === null) {
+    throw Error('User not found.');
+  }
   const result = await User.updateOne({ userId: userId }, userUpdatedData, {
     new: true,
   });
@@ -49,12 +55,18 @@ const updateUserInfoFromDB = async (userId: number, userUpdatedData: TUser) => {
 
 //delete user from database
 const deleteUserFromDB = async (userId: number) => {
+  if(await User.isUserExists(userId)===null){
+    throw Error("User not found.")
+   }
   const result = await User.deleteOne({ userId });
   return result;
 };
 
 //Add order into database
 const addOrderIntoDB = async (userId: number, order: TOrder) => {
+  if(await User.isUserExists(userId)===null){
+    throw Error("User not found.")
+   }
   const user = await User.findOneAndUpdate(
     { userId },
     { $push: { orders: order } },
@@ -65,6 +77,9 @@ const addOrderIntoDB = async (userId: number, order: TOrder) => {
 
 //Show all order from an user
 const getAllOderFromUser = async (userId: number) => {
+  if(await User.isUserExists(userId)===null){
+    throw Error("User not found.")
+   }
   const orders = await User.findOne({ userId }).select({ orders: 1 });
   if (orders?.orders?.length) {
     return orders;
@@ -75,6 +90,9 @@ const getAllOderFromUser = async (userId: number) => {
 
 //calculate the total cost of a user
 const calculateTotalCostOfAnUser = async (userId: number) => {
+  if(await User.isUserExists(userId)===null){
+    throw Error("User not found.")
+   }
   const user = await User.findOne({ userId });
   if (user?.orders?.length) {
     const result = await User.aggregate([
