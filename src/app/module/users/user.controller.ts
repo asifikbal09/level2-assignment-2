@@ -86,26 +86,72 @@ const updateUser = async (req: Request, res: Response) => {
 
 //delete user function
 const deleteUser = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const result = await UserService.deleteUserFromDB(parseFloat(userId));
-  res.status(200).json({
-    success: true,
-    message: 'User deleted successfully!',
-    data: null,
-  });
+  try {
+    const { userId } = req.params;
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const result = await UserService.deleteUserFromDB(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully!',
+      data: null,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(501).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 501,
+        description: err,
+      },
+    });
+  }
 };
 
 //add order function
 const addOrder = async (req: Request, res: Response) => {
-  const { order } = req.body;
-  const { userId } = req.params;
-  const result = await UserService.addOrderIntoDB(parseFloat(userId), order);
+  try {
+    const { order } = req.body;
+    const { userId } = req.params;
+    const result = await UserService.addOrderIntoDB(parseFloat(userId), order);
+    res.status(200).json({
+      success: true,
+      message: 'Order added successfully.',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(501).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 501,
+        description: err,
+      },
+    });
+  }
+};
+
+const getAllOrder = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+  const result = await UserService.getAllOderFromUser(parseFloat(userId));
   res.status(200).json({
     success: true,
-    message: 'Order added successfully.',
+    message: 'Order fetched successfully!',
     data: result,
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err:any) {
+    res.status(501).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 501,
+        description: err,
+      },
+    });
+  }
 };
 
 export const UserController = {
@@ -115,4 +161,5 @@ export const UserController = {
   updateUser,
   deleteUser,
   addOrder,
+  getAllOrder,
 };

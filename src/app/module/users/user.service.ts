@@ -4,8 +4,8 @@ import { User } from './user.model';
 //save a new user into database
 const createUserIntoDB = async (userData: TUser) => {
   const user = await User.create(userData);
-  const userId = user.userId
-  const result = await User.findOne({userId}).select({password:0})
+  const userId = user.userId;
+  const result = await User.findOne({ userId }).select({ password: 0 });
   return result;
 };
 
@@ -52,12 +52,25 @@ const deleteUserFromDB = async (userId: number) => {
   return result;
 };
 
-const addOrderIntoDB=async (userId:number,order:TOrder)=>{
-  const user = await User.findOneAndUpdate({userId},{$push:{orders:order}},{new:true})
-  return user
-  
- 
-} 
+//Add order into database
+const addOrderIntoDB = async (userId: number, order: TOrder) => {
+  const user = await User.findOneAndUpdate(
+    { userId },
+    { $push: { orders: order } },
+    { new: true },
+  );
+  return user;
+};
+
+//Show all order from an user
+const getAllOderFromUser = async (userId: number) => {
+  const orders = await User.findOne({ userId }).select({orders:1});
+  if (orders?.orders.length) {
+    return orders;
+  } else {
+    throw Error("User don't have any order.");
+  }
+};
 
 export const UserService = {
   createUserIntoDB,
@@ -65,5 +78,6 @@ export const UserService = {
   getSingleUserFromDB,
   updateUserInfoFromDB,
   deleteUserFromDB,
-  addOrderIntoDB
+  addOrderIntoDB,
+  getAllOderFromUser,
 };
