@@ -5,8 +5,8 @@ import userValidationSchema, { orderValidationSchema } from './user.validation';
 //create a user function
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
-    const validatedData = userValidationSchema.parse(userData)
+    const userData  = req.body;
+    const validatedData = userValidationSchema.parse(userData);
     const result = await UserService.createUserIntoDB(validatedData);
     res.status(200).json({
       success: true,
@@ -49,36 +49,35 @@ const getAllUser = async (req: Request, res: Response) => {
 
 //get single user function
 const getSingleUser = async (req: Request, res: Response) => {
-try {
-  const { userId } = req.params;
-  const result = await UserService.getSingleUserFromDB(parseFloat(userId));
-  res.status(200).json({
-    success: true,
-    message: 'User fetched successfully!',
-    data: result,
-  });
- // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (err: any) {
-  res.status(404).json({
-    success: false,
-    message: err.message,
-    error: {
-      code: 404,
-      description: err,
-    },
-  });
-}
+  try {
+    const { userId } = req.params;
+    const result = await UserService.getSingleUserFromDB(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: 'User fetched successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(404).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 404,
+        description: err,
+      },
+    });
+  }
 };
 
 //update user data
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const { user } = req.body;
-    const validatedData = userValidationSchema.parse(user)
+    const  user  = req.body;
     const result = await UserService.updateUserInfoFromDB(
       parseFloat(userId),
-      validatedData,
+      user,
     );
 
     res.status(200).json({
@@ -126,14 +125,19 @@ const deleteUser = async (req: Request, res: Response) => {
 //add order function
 const addOrder = async (req: Request, res: Response) => {
   try {
-    const { order } = req.body;
+    const  order  = req.body;
     const { userId } = req.params;
-    const validatedData = orderValidationSchema.parse(order)
-    const result = await UserService.addOrderIntoDB(parseFloat(userId), validatedData);
+    
+    const validatedData = orderValidationSchema.parse(order);
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const result = await UserService.addOrderIntoDB(
+      parseFloat(userId),
+      validatedData,
+    );
     res.status(200).json({
       success: true,
-      message: 'Order added successfully.',
-      data: result,
+      message: 'Order created successfully!',
+      data: null,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
@@ -152,14 +156,14 @@ const addOrder = async (req: Request, res: Response) => {
 const getAllOrder = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-  const result = await UserService.getAllOderFromUser(parseFloat(userId));
-  res.status(200).json({
-    success: true,
-    message: 'Order fetched successfully!',
-    data: result,
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err:any) {
+    const result = await UserService.getAllOderFromUser(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     res.status(404).json({
       success: false,
       message: err.message,
@@ -172,27 +176,29 @@ const getAllOrder = async (req: Request, res: Response) => {
 };
 
 //calculate the total cost
-const calculateTotalCost=async(req:Request,res:Response)=>{
-try {
-  const {userId}=req.params
-  const result = await UserService.calculateTotalCostOfAnUser(parseFloat(userId))
-  res.status(200).json({
-    success: true,
-    message: 'Total price calculated successfully!',
-    data: result,
-  })
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-} catch (err:any) {
-  res.status(404).json({
-    success: false,
-    message: err.message,
-    error: {
-      code: 404,
-      description: err,
-    },
-  });
-}
-}
+const calculateTotalCost = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserService.calculateTotalCostOfAnUser(
+      parseFloat(userId),
+    );
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(404).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 404,
+        description: err,
+      },
+    });
+  }
+};
 
 export const UserController = {
   createUser,
@@ -202,5 +208,5 @@ export const UserController = {
   deleteUser,
   addOrder,
   getAllOrder,
-  calculateTotalCost
+  calculateTotalCost,
 };

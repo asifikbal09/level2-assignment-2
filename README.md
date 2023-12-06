@@ -1,6 +1,8 @@
 ### Overview
 Shopping project is a simple and scalable backend project built using cutting-edge technologies to deliver a seamless and secure experience. The project leverages the power of Node.js and Express.js for building the server-side logic, TypeScript for enhanced code maintainability, Mongoose for MongoDB integration, and several other essential tools and libraries to ensure a modern and efficient development workflow.
 
+## Live link:
+ - [Shopping Project](https://shopping-project-navy.vercel.app/) live link is https://shopping-project-navy.vercel.app/
 
 ## Technologies Used
 - **Node.js:** A powerful JavaScript runtime for building scalable and efficient server-side applications.
@@ -18,11 +20,45 @@ Shopping project is a simple and scalable backend project built using cutting-ed
 ## Getting Started
 To set up the project locally, follow these steps:
 
-1. **Clone the repository:** git clone [https://github.com/asifikbal09/level2-assignment-2.git]
-2. **Install dependencies:** npm install
-3. **Set up environment variables:** Create a .env file based on the provided .env.example. Now declare 4 variable `NODE_ENV`, `PROT`, `MONGODB_URL` and `BCRYPT_SALT_ROUND`.
-4. **Value assign in env variables:** NODE_ENV = development ; when you work locally, PORT value basically everyone use 5000, MONGODB_URL value must be copy from MongoDB atlas and assign it. And the `BCRYPT_SALT_ROUND` value is a number.
-5. **Start the development server:** `npm run start:dev`
+1. **Clone the repository:** 
+```bash
+  git clone https://github.com/asifikbal09/level2-assignment-2.git
+  cd level2-assignment-2
+```
+2. **Install dependencies:** 
+```bash
+  npm install
+```
+Now all dependencies are install on your local project.
 
-Now you're ready to dive into Shopping project and build more amazing features with confidence!
+3. **Set up environment variables:** Create a .env file based on the provided .env.example. Now declare 4 variable `NODE_ENV`, `PROT`, `MONGODB_URL` and `BCRYPT_SALT_ROUND`.
+
+4. **Value assign in env variables:** NODE_ENV = development ; when you work locally, PORT value basically everyone use 5000, MONGODB_URL value must be copy from MongoDB atlas and assign it. And the `BCRYPT_SALT_ROUND` value is a number. You can choose any number between 10 to 20. 
+
+5. **Start the development server:** `npm run start:dev` 
+
+## API Endpoints.
+### User Endpoints
+**Create a new user api Endpoint:**
+- POST /api/users
+**Retrieve a list of all users Endpoint:**
+- GET /api/users
+**Retrieve single user by ID Endpoint:**
+- GET /api/users/:userId
+**Update a user information by ID Endpoint:**
+- PUT /api/users/:userId
+**Delete a user Endpoint:**
+- DELETE /api/users/:userId
+### Order Management-
+**Add a new order Endpoint:**
+- PUT /api/users/:userId/orders
+**Retrieve all orders for a specific user Endpoint:**
+- GET /api/users/:userId/orders
+**Retrieve all orders for a specific user Endpoint:**
+- GET /api/users/:userId/orders/total-price
+
+## API Testing Tool
+I use [POSTMAN](https://www.postman.com/) for test my API endpoints. It is so useful for testing api.
+
+"The more you know, the more you realize you don't know." - Aristotle
 
